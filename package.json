@@ -1,0 +1,23 @@
+{
+  "name": "kicker_ressurected",
+  "version": "1.0.0",
+  "description": "Kicker rating system",
+  "main": "index.js",
+  "dependencies": {
+    "ts-trueskill": "^3.2.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kajmaj87/kicker_ressurected.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kajmaj87/kicker_ressurected/issues"
+  },
+  "homepage": "https://github.com/kajmaj87/kicker_ressurected#readme"
+}
