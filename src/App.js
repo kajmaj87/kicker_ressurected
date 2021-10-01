@@ -26,7 +26,7 @@ function App() {
             <Home />
           </Route>
 
-          <Route path="/cap"  exact>
+          <Route path="/ASPEP"  exact>
             <Result />
           </Route>
           <Route path="/del"  exact>

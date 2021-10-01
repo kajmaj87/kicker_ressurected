@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useHistory} from 'react-router-dom';
 import * as FirestoreService from "./services/firestore";
+import useQueryString from './hooks/useQueryString';
 
 const Home = (props) => {
     const history = useHistory();
@@ -8,15 +9,13 @@ const Home = (props) => {
 
         useEffect(() => {
             const groupList = [];
-
             FirestoreService.getGroupList().then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
                     groupList.push(doc.data().name);
                 });
                 setGroupList(groupList);
             });
-
-        });
+        }, []);
 
         return (
         <>
@@ -28,11 +27,11 @@ const Home = (props) => {
 
 
             {
-                groupList.map(result =>
-                    <p>
-                        <button name="{result}" onClick={() => history.push('/{result}', {param: "{result}"})}>{result}</button>
-                    </p>
-                )
+               groupList.map(result =>
+                   <p>
+                        <button  name="cap" onClick={() => history.push('/ASPEP', {param: "ASPEP"})}>ASPEP</button>
+                   </p>
+               )
             }
 
 
