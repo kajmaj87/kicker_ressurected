@@ -1,10 +1,26 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {useHistory} from 'react-router-dom';
+import * as FirestoreService from "./services/firestore";
 
 const Home = (props) => {
     const history = useHistory();
+    const [groupList, setGroupList] = useState([]);
 
-    return (
+        useEffect(() => {
+            console.log(location.state.param)
+            const groupList = [];
+
+
+            FirestoreService.getGroupList(location.state.param).then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    groupList.push(doc.data().group);
+                });
+                setGroupList(groupList);
+            });
+
+        });
+
+        return (
         <>
             <h1>Kicker</h1>
 

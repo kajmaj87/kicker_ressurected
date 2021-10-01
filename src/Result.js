@@ -12,14 +12,13 @@ const Result = (props) => {
     const history = useHistory();
     const location = useLocation();
     const [resultList, setResultList] = useState([]);
-    const [groupList, setGroupList] = useState([]);
     const [open, setOpen] = useState(false);
     const closeModal = () => setOpen(false);
 
     useEffect(() => {
         console.log(location.state.param)
         const userList = [];
-        const groupList = [];
+        //const groupList = [];
 
         FirestoreService.getRankingList(location.state.param).then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
@@ -29,12 +28,12 @@ const Result = (props) => {
         });
 
 
-        FirestoreService.getGroupList(location.state.param).then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                groupList.push(doc.data().group);
-            });
-            setGroupList(groupList);
-        });
+        // FirestoreService.getGroupList(location.state.param).then((querySnapshot) => {
+        //     querySnapshot.forEach((doc) => {
+        //         groupList.push(doc.data().group);
+        //     });
+        //     setGroupList(groupList);
+        // });
 
     });
 
