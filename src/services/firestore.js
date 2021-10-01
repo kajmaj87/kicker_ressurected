@@ -21,6 +21,9 @@ export const getRankingList = company => {
 };
 
 
+export const getGroupList = company => {
+    return db.collection("group").orderBy("name ", "asc").get();
+};
 
 
 export const addResultToRankingList = (userNameArray, company, result) => {
