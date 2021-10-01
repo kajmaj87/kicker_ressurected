@@ -1,9 +1,14 @@
 [build]
  functions = "./api"
  publish = "public/"
- 
+
 [[redirects]]
  from = "/*"
  to = "/.netlify/functions/:splat"
  status = 200
 
+[build.environment]
+NODE_VERSION = "14.16.0"
+
+[functions]
+node_bundler = "esbuild"
