@@ -21,7 +21,7 @@ export const getRankingList = company => {
 };
 
 
-export const getGroupList = company => {
+export const getGroupList = () => {
     return db.collection("group").orderBy("name ", "asc").get();
 };
 

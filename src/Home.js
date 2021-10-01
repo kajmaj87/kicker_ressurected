@@ -7,11 +7,9 @@ const Home = (props) => {
     const [groupList, setGroupList] = useState([]);
 
         useEffect(() => {
-            console.log(location.state.param)
             const groupList = [];
 
-
-            FirestoreService.getGroupList(location.state.param).then((querySnapshot) => {
+            FirestoreService.getGroupList().then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
                     groupList.push(doc.data().name);
                 });
