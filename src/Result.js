@@ -1,8 +1,7 @@
-
-import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import React, {useState, useEffect} from 'react';
+import {useHistory} from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
+import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
@@ -13,38 +12,51 @@ const Result = (props) => {
     const history = useHistory();
     const location = useLocation();
     const [resultList, setResultList] = useState([]);
+    const [groupList, setGroupList] = useState([]);
     const [open, setOpen] = useState(false);
     const closeModal = () => setOpen(false);
 
-
-
-
     useEffect(() => {
         console.log(location.state.param)
-        const result = FirestoreService.getRankingList(location.state.param);
-       //setResultList(result);
-        console.log(result)
+        const userList = [];
+        const groupList = [];
+
+        FirestoreService.getRankingList(location.state.param).then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                userList.push(doc.data().user);
+            });
+            setResultList(userList);
+        });
+
+
+        FirestoreService.getGroupList(location.state.param).then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                groupList.push(doc.data().group);
+            });
+            setGroupList(groupList);
+        });
+
     });
 
 
     return (
         <>
             <h1>Result Page {location.state.param}</h1>
-            <br />
+            <br/>
             <Popup open={open} closeOnDocumentClick onClose={closeModal}>
-                <div className="header"> Add new result </div>
+                <div className="header"> Add new result</div>
                 <div className="content">
                     <label>
                         Date:
-                        <input type="text" date="date" />
+                        <input type="text" date="date"/>
                     </label>
                     <label>
                         Group Win:
-                        <input type="text" groupWin="name" />
+                        <input type="text" groupWin="name"/>
                     </label>
                     <label>
                         Loser group:
-                        <input type="text" loserGroup="name" />
+                        <input type="text" loserGroup="name"/>
                     </label>
                     <button
                         className="button"
@@ -71,14 +83,14 @@ const Result = (props) => {
                 </TabPanel>
             </Tabs>
 
-            {/* <ul>
-          {
-              resultList.map(result =>
-                <li>{result}</li>
-                )
-          }
-          
-     </ul> */}
+            {<ul>
+                {
+                    resultList.map(result =>
+                        <li>{result}</li>
+                    )
+                }
+
+            </ul>}
             <button onClick={() => history.goBack()}>Go Back</button>
         </>
     );

@@ -3,13 +3,13 @@ import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 
 const firebaseConfig = {
-    apiKey: process.env.REACT_APP_APIKEY,
-    authDomain: process.env.REACT_APP_AUTHDOMAIN,
-    projectId: process.env.REACT_APP_PROJECTID,
-    storageBucket: process.env.REACT_APP_STORAGEBUCKET,
-    messagingSenderId: process.env.REACT_APP_MESSAGINGSENDERID,
-    appId: process.env.REACT_APP_APPID,
-    measurementId: process.env.REACT_APP_MEASUREMENTID
+    apiKey: "AIzaSyCzO1tFIPeqvvUhb_wz7xydzjXQIM6Ck2o",
+    authDomain: "kicker-app-9cd86.firebaseapp.com",
+    projectId:  "kicker-app-9cd86",
+    storageBucket: "kicker-app-9cd86.appspot.com",
+    messagingSenderId: "269451121959",
+    appId:"1:269451121959:web:cc44393a0239a532bd4502",
+    measurementId: "G-ELFGF2JKB9"
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -17,14 +17,7 @@ const db = firebase.firestore();
 
 
 export const getRankingList = company => {
-    const list = [];
-    db.collection("rank").orderBy("group ", "asc").get().then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-            list.push(doc.data());
-        });
-        
-    });
-    return list;
+    return db.collection("rank").orderBy("group ", "asc").get();
 };
 
 
