@@ -12,7 +12,6 @@ exports.handler = async function (event, context) {
 }
 
 function processMatch(match) {
-
     let winning_team_ratings = match.winners.map(get_rating);
     let losing_team_ratings = match.losers.map(get_rating);
 
