@@ -31,7 +31,6 @@ function App() {
             <Home />
           </Route>
 
-          <!-- zostawcie to na końcu, by domyślnie różne leciały do resulta -->
           <Route path="/*"  exact>
             <Result />
           </Route>
