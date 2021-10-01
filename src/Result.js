@@ -44,7 +44,7 @@ const Result = (props) => {
         const getGroup1Users = () => {
             const userList = [];
             const group = myRef1.current.options[myRef1.current.selectedIndex].value;
-            FirestoreService.getRankingList(group.value)
+            FirestoreService.getRankingList(group)
                 .then((querySnapshot) => {
                     querySnapshot.forEach((doc) => {
                         userList.push(doc.data().name);
