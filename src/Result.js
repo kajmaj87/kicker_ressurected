@@ -113,13 +113,19 @@ const Result = (props) => {
                             <br/>
                             <label>Winner 1: </label>
                             <select>
-                                {group1users}
+                                {
+                                    group1users.map(value=>
+                                        <option key={value} value={value}>{value}</option>)
+                                }
                             </select>
 
                             <br/>
                             <label>Winner 2: </label>
                             <select>
-                                {group1users}
+                                {
+                                    group1users.map(value=>
+                                        <option key={value} value={value}>{value}</option>)
+                                }
                             </select>
 
                             <br/>
@@ -136,13 +142,19 @@ const Result = (props) => {
                             <br/>
                             <label>Loser 1: </label>
                             <select>
-                                {group2users}
+                                {
+                                    group2users.map(value=>
+                                        <option key={value} value={value}>{value}</option>)
+                                }
                             </select>
 
                             <br/>
                             <label>Loser 2: </label>
                             <select>
-                                {group2users}
+                                {
+                                    group2users.map(value=>
+                                        <option key={value} value={value}>{value}</option>)
+                                }
                             </select>
 
                             <br/>
