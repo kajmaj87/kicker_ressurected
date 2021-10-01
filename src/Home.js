@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useHistory} from 'react-router-dom';
 import * as FirestoreService from "./services/firestore";
-import useQueryString from './hooks/useQueryString';
+
 
 const Home = (props) => {
     const history = useHistory();

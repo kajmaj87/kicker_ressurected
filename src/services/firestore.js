@@ -25,13 +25,14 @@ export const getGroupList = company => {
 };
 
 
-export const addResultToRankingList = (userNameArray, company, result) => {
-    return db.collection('rankingList')
-        .doc(company)
-        .update({
-            //TODO
-
-            // BSZ WIN 
+export const addMatch = (userNameArrayLosers,userNameArrayWinners, group) => {
+    var today = new Date();
+    return db.collection('match')
+        .add({
+            "data":  today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate(),
+            "losers": userNameArrayLosers,
+            "winners": userNameArrayWinners,
+            "group": group
         });
 };
 

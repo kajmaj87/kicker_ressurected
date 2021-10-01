@@ -50,6 +50,13 @@ const Result = (props) => {
                             onClick={closeModal}>
                             Submit
                         </button>
+                        <button
+                            className="button"
+                           //onClick={FirestoreService.addMatch(["PKU", "BSZ"], ["AKO", "PLA"], "ASPEP")}>
+                            onClick={closeModal}>
+                            Submit
+                        </button>
+
                     </div>
                 </Popup>
 
