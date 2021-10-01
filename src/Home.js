@@ -13,7 +13,7 @@ const Home = (props) => {
 
             FirestoreService.getGroupList(location.state.param).then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
-                    groupList.push(doc.data().group);
+                    groupList.push(doc.data().name);
                 });
                 setGroupList(groupList);
             });

@@ -18,7 +18,6 @@ const Result = (props) => {
     useEffect(() => {
         console.log(location.state.param)
         const userList = [];
-        //const groupList = [];
 
         FirestoreService.getRankingList(location.state.param).then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
@@ -26,15 +25,6 @@ const Result = (props) => {
             });
             setResultList(userList);
         });
-
-
-        // FirestoreService.getGroupList(location.state.param).then((querySnapshot) => {
-        //     querySnapshot.forEach((doc) => {
-        //         groupList.push(doc.data().group);
-        //     });
-        //     setGroupList(groupList);
-        // });
-
     });
 
 
