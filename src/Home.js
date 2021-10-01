@@ -29,7 +29,7 @@ const Home = (props) => {
             {
                groupList.map(result =>
                    <p>
-                        <button  name="cap" onClick={() => history.push('/ASPEP', {param: "ASPEP"})}>ASPEP</button>
+                        <button onClick={() => history.push('/'+result, {param: result})}>{result}</button>
                    </p>
                )
             }
