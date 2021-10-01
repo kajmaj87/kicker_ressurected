@@ -1,7 +1,6 @@
 import {useEffect, useState} from 'react';
 import {useHistory, useLocation} from 'react-router-dom';
 import {Tab, TabList, TabPanel, Tabs} from 'react-tabs';
-//import DropdownInput from 'react-dropdown-input';
 import React from 'react';
 import 'react-tabs/style/react-tabs.css';
 import 'reactjs-popup/dist/index.css';
@@ -9,27 +8,21 @@ import * as FirestoreService from './services/firestore';
 
 
 const Result = (props) => {
+    const myRef1= React.createRef();
+    const myRef2= React.createRef();
         const history = useHistory();
         const location = useLocation();
         const [resultList, setResultList] = useState([]);
         const [groupList, setGroupList] = useState([]);
-        const [options, setOptions] = useState([]);
         const [group1users, setGroup1Users] = useState([]);
         const [group2users, setGroup2Users] = useState([]);
         useEffect(() => {
             const groupList = [];
-            const options = [];
             FirestoreService.getGroupList().then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
                     groupList.push(doc.data().name);
                 });
                 setGroupList(groupList);
-
-                for (let i = 0; i < groupList.length; i++) {
-                    const value = groupList[i];
-                    options.push(<option key={value} value={value}>{value}</option>);
-                }
-                setOptions(options);
             });
 
 
@@ -48,8 +41,9 @@ const Result = (props) => {
         //
         // });
 
-        const getGroup1Users = (group) => {
+        const getGroup1Users = () => {
             const userList = [];
+            const group = myRef1.current.options[myRef1.current.selectedIndex].value;
             FirestoreService.getRankingList(group.value)
                 .then((querySnapshot) => {
                     querySnapshot.forEach((doc) => {
@@ -59,8 +53,9 @@ const Result = (props) => {
                 });
         };
 
-        const getGroup2Users = (group) => {
+        const getGroup2Users = () => {
             const userList = [];
+            const group = myRef2.current.options[myRef2.current.selectedIndex].value;
             FirestoreService.getRankingList(group)
                 .then((querySnapshot) => {
                     querySnapshot.forEach((doc) => {
@@ -108,8 +103,11 @@ const Result = (props) => {
 
                             <br/>
                             <label>Winners: </label>
-                            <select onChange={() => getGroup1Users(this)}>
-                                {options}
+                            <select ref={myRef1} onChange={() => getGroup1Users(this)}>
+                                {
+                                    groupList.map(value=>
+                                    <option key={value} value={value}>{value}</option>)
+                                }
                             </select>
 
                             <br/>
@@ -128,8 +126,11 @@ const Result = (props) => {
                             <br/>
                             <br/>
                             <label>Losers: </label>
-                            <select onChange={() => getGroup2Users(this)}>
-                                {options}
+                            <select ref={myRef2} onChange={() => getGroup2Users()}>
+                                {
+                                    groupList.map(value=>
+                                        <option key={value} value={value}>{value}</option>)
+                                }
                             </select>
 
                             <br/>
@@ -143,20 +144,6 @@ const Result = (props) => {
                             <select>
                                 {group2users}
                             </select>
-
-                            {/*<DropdownInput*/}
-                            {/*  //  options={groupList}*/}
-                            {/*    menuClassName='dropdown-input'*/}
-                            {/*    //onSelect={this.handleSelectName}*/}
-                            {/*    placeholder='Winners'*/}
-                            {/*/>*/}
-
-                            {/*<DropdownInput*/}
-                            {/* //   options={groupList}*/}
-                            {/*    menuClassName='dropdown-input'*/}
-                            {/*    //onSelect={this.handleSelectName}*/}
-                            {/*    placeholder='Losers'*/}
-                            {/*/>*/}
 
                             <br/>
                             <button
