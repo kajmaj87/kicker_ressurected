@@ -16,7 +16,7 @@ const db = firebase.firestore();
 
 
 export const getRankingList = company => {
-    return db.collection("user").orderBy("name", "asc").get();
+    return db.collection("user").orderBy("name", "asc").where("group", "==", company).get();
 };
 
 
