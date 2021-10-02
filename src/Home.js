@@ -20,7 +20,7 @@ const Home = (props) => {
         return (
         <>
             <h1>Kicker</h1>
-
+              <button onClick={() => history.push('/newGroup', {param: "newGroup"})}> Create New Group</button>
             <hr/>
 
             {/* Button */}

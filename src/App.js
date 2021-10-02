@@ -6,8 +6,8 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 
 import Home from './Home';
+import Creategroup from './Creategroup';
 import Result from './Result';
-
 
 function App() {
   const history = useHistory();
@@ -27,13 +27,14 @@ function App() {
             <Home />
           </Route>
 
-          <Route path="/del"  exact>
-            <Home />
+          <Route path="/newGroup"  exact>
+            <Creategroup />
           </Route>
 
           <Route path="/*"  exact>
             <Result />
           </Route>
+
 
         </Switch>
       </Router>

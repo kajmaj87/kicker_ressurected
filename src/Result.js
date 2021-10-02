@@ -11,17 +11,27 @@ const Result = (props) => {
         const history = useHistory();
         const location = useLocation();
         const [resultList, setResultList] = useState([]);
+        const [matchtList, setMatchList] = useState([]);
         const [open, setOpen] = useState(false);
         const closeModal = () => setOpen(false);
 
         useEffect(() => {
             const userList = [];
+            const matchlist = [];
             FirestoreService.getRankingList(location.state.param)
                 .then((querySnapshot) => {
                     querySnapshot.forEach((doc) => {
                         userList.push(doc.data().name);
                     });
                     setResultList(userList);
+                });
+
+            FirestoreService.getMatchList(location.state.param)
+                .then((querySnapshot) => {
+                    querySnapshot.forEach((doc) => {
+                        matchlist.push(doc.data());
+                    });
+                    setMatchList(matchlist);
                 });
         }, []);
 
@@ -52,7 +62,6 @@ const Result = (props) => {
                         </button>
                         <button
                             className="button"
-                           //onClick={FirestoreService.addMatch(["PKU", "BSZ"], ["AKO", "PLA"], "ASPEP")}>
                             onClick={closeModal}>
                             Submit
                         </button>
@@ -70,21 +79,23 @@ const Result = (props) => {
                     </TabList>
 
                     <TabPanel>
-                        <h2>TABELA Z RANKINGIEM</h2>
+                        <h2>Player list</h2>
+                        {<ul>
+                            {
+                                resultList.map(result =>
+                                    <div>{result}</div>
+                                )
+                            }
+                        </ul>}
                     </TabPanel>
                     <TabPanel>
-                        <h2>TABELA Z WYNIKAMIdffdfd</h2>
+                        <h2>Matches table</h2>
+                        {matchtList.map(match => <div>{match.data} {match.losers.join(',')} {match.winners.join(',')} </div>)}
+
                     </TabPanel>
                 </Tabs>
 
-                {<ul>
-                    {
-                        resultList.map(result =>
-                            <li>{result}</li>
-                        )
-                    }
 
-                </ul>}
                 <button onClick={() => history.goBack()}>Go Back</button>
             </>
         );

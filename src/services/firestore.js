@@ -25,14 +25,26 @@ export const getGroupList = company => {
 };
 
 
-export const addMatch = (userNameArrayLosers,userNameArrayWinners, group) => {
+export const addMatch = (userNameArrayLosers, userNameArrayWinners, group) => {
     var today = new Date();
     return db.collection('match')
         .add({
-            "data":  today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate(),
+            "data": today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate(),
             "losers": userNameArrayLosers,
             "winners": userNameArrayWinners,
             "group": group
         });
+};
+
+export const createGroup = (groupName, groupSecret) => {
+    return db.collection('group')
+        .add({
+            "name": groupName,
+            "password": groupSecret
+        });
+};
+
+export const getMatchList = company => {
+    return db.collection("match").where("group", "==", company).get();
 };
 
