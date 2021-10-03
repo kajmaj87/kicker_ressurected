@@ -5,9 +5,10 @@ const matches = [{ winners: ["BSZ", "KMA"], losers: ["PKU", "PLA"], date: 1 },
 { winners: ["BSZ", "XYZ"], losers: ["PKU", "PLA"], date: 3 }]
 
 exports.handler = async function (event, context) {
+    matches.forEach(match => ranks = processMatch(match))
     return {
         statusCode: 200,
-        body: JSON.stringify({ result: processMatch(matches[0]) })
+        body: JSON.stringify({ result: formatRank(ranks) })
     };
 }
 
@@ -21,7 +22,8 @@ function processMatch(match) {
     ranks = updateRanks(updated_winning_team_ratings, match.winners, ranks);
     ranks = updateRanks(updated_losing_team_ratings, match.losers, ranks);
 
-    return [{ winners: updated_winning_team_ratings.map(formatRank) }, { losers: updated_losing_team_ratings.map(formatRank) }, { ranks: ranks }];
+    console.log("Ranks after match: ",ranks)
+    return ranks;
 }
 
 get_rating = function (user_tag) {
@@ -31,8 +33,14 @@ get_rating = function (user_tag) {
     return new skill.Rating();
 }
 
-function formatRank(rank) {
-    return { rank: skill.expose(rank), mu: rank.mu, sigma: rank.sigma }
+function formatRank(ranks) {
+    var user_names = Object.keys(ranks)
+    return user_names.map( name => { return {
+        "user": name,
+        "rank": skill.expose(ranks[name]),
+        "mu": ranks[name].mu,
+        "sigma": ranks[name].sigma
+    }})
 }
 
 function updateRanks(group_ratings, tags, ranks) {
