@@ -15,8 +15,6 @@ class NewResult extends PureComponent {
 
     constructor(props) {
         super(props);
-        const {group} = this.props;
-        const notify = () => toast("Wow so easy!");
         this.state = {
             groupList: [],
             userList: [],
@@ -125,7 +123,6 @@ class NewResult extends PureComponent {
 
 
     render() {
-        const {history} = this.props;
         return (
             <div>
                 <h2>Add New result</h2>

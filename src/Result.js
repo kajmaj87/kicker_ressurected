@@ -9,14 +9,10 @@ import NewResult from './NewResult';
 
 
 const Result = (props) => {
-        const myRef1 = React.createRef();
-        const myRef2 = React.createRef();
         const history = useHistory();
         const location = useLocation();
         const [resultList, setResultList] = useState([]);
         const [matchtList, setMatchList] = useState([]);
-        const [open, setOpen] = useState(false);
-        const closeModal = () => setOpen(false);
 
         useEffect(() => {
             const userList = [];
