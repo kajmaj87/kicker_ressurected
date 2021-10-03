@@ -1,6 +1,11 @@
 [build]
  functions = "./api"
- publish = "public/"
+ publish = "build/"
+
+[[redirects]]
+ from = "/static/*"
+ to = "/build/static/:splat"
+ status = 200
 
 [[redirects]]
  from = "/*"

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #
 .netlify
 # Logs
@@ -48,22 +49,29 @@ typings/
 
 # TypeScript cache
 *.tsbuildinfo
+=======
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+>>>>>>> origin/addNewgroup
 
-# Optional npm cache directory
-.npm
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
 
-# Optional eslint cache
-.eslintcache
+# testing
+/coverage
 
-# Microbundle cache
-.rpt2_cache/
-.rts2_cache_cjs/
-.rts2_cache_es/
-.rts2_cache_umd/
+# production
+/build
 
-# Optional REPL history
-.node_repl_history
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
+<<<<<<< HEAD
 # Output of 'npm pack'
 *.tgz
 
@@ -104,3 +112,8 @@ dist
 
 # TernJS port file
 .tern-port
+=======
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+>>>>>>> origin/addNewgroup
