@@ -6,7 +6,7 @@ let ranks = {};
 
 exports.handler = async function (event, context) {
     const query = event.queryStringParameters.group ? `?group=${event.queryStringParameters.group}` : '',
-          url = `${URL}/matches${query}`,
+          url = `${URL}/api/matches${query}`,
           matches = await axios.get(url);
     console.log("Queried for ", url)
     matches.data.forEach(match => ranks = processMatch(match))
