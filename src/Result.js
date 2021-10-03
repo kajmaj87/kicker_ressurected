@@ -65,7 +65,7 @@ const Result = (props) => {
 
         return (
             <>
-                <h1>Result Page {location.state.param}</h1>
+                <h1>🥅 Result Page - {location.state.param}</h1>
                 <br/>
 
                 <Tabs>
@@ -75,7 +75,7 @@ const Result = (props) => {
                         <Tab>New Game Result</Tab>
                     </TabList>
                     <TabPanel>
-                        <h2>Ranking</h2>
+                        <h2>📈 Ranking</h2>
                         <p>games played: {matchtList.length} </p>
                         <button type="button" class="btn btn-primary" onClick={() => history.goBack()}>Go Back</button>
                         <table class="center" id='students'>
@@ -89,7 +89,7 @@ const Result = (props) => {
                         </table>
                     </TabPanel>
                     <TabPanel>
-                        <h2>Matches table</h2>
+                        <h2>🕒 Matches table</h2>
                         <button type="button" class="btn btn-primary" onClick={() => history.goBack()}>Go Back</button>
                         <table class="center" id='students'>
                             <tbody>

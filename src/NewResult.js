@@ -159,7 +159,7 @@ class NewResult extends PureComponent {
     render() {
         return (
             <div>
-                <h2>Add New Result</h2>
+                <h2>✏️Add New Result</h2>
                 <button type="button" class="btn btn-primary" onClick={this.revertTeams}>
                     Swap team
                 </button>
