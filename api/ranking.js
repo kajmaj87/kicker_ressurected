@@ -2,23 +2,24 @@ const skill = require('ts-trueskill');
 const axios = require('axios');
 const { URL } = process.env
 
-let ranks = {};
 
 exports.handler = async function (event, context) {
     const query = event.queryStringParameters.group ? `?group=${event.queryStringParameters.group}` : '',
           url = `${URL}/api/matches${query}`,
           matches = await axios.get(url);
+    let ranks = {};
     console.log("Queried for ", url)
-    matches.data.forEach(match => ranks = processMatch(match))
+    console.log("Matches: ", matches.data)
+    matches.data.forEach(match => ranks = processMatch(match, ranks))
     return {
         statusCode: 200,
-        body: JSON.stringify({ result: formatRank(ranks).sort((a,b) => b.rank - a.rank) })
+        body: JSON.stringify(formatRank(ranks).sort((a,b) => b.rank - a.rank))
     };
 }
 
-function processMatch(match) {
-    let winning_team_ratings = match.winners.map(get_rating);
-    let losing_team_ratings = match.losers.map(get_rating);
+function processMatch(match, ranks) {
+    let winning_team_ratings = match.winners.map(user => get_rating(user, ranks));
+    let losing_team_ratings = match.losers.map(user => get_rating(user, ranks));
 
     // Assumes the first team was the winner by default
     let [updated_winning_team_ratings, updated_losing_team_ratings] = skill.rate([winning_team_ratings, losing_team_ratings]);
@@ -29,7 +30,7 @@ function processMatch(match) {
     return ranks;
 }
 
-get_rating = function (user_tag) {
+get_rating = function (user_tag, ranks) {
     if (user_tag in ranks) {
         return ranks[user_tag];
     }
