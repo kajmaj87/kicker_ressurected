@@ -3,6 +3,7 @@ import {useHistory} from 'react-router-dom';
 import * as FirestoreService from "./services/firestore";
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {TabPanel} from "react-tabs";
 
 
 const Home = (props) => {
@@ -25,16 +26,19 @@ const Home = (props) => {
               <button type="button" class="btn btn-primary" onClick={() => history.push('/newGroup', {param: "newGroup"})}> Create New Group</button>
             <hr/>
 
+            <table class="center" id='students'>
+                <tbody>
+                    <th>Groups </th>
+                    {
+                        groupList.map(result =>
+                            <tr >
+                                <button type="button" class="btn btn-default btn-block" onClick={() => history.push('/'+result, {param: result})}>{result}</button>
+                            </tr>
+                        )
+                    }
 
-            {
-               groupList.map(result =>
-                   <p>
-                        <button type="button" class="btn btn-primary" onClick={() => history.push('/'+result, {param: result})}>{result}</button>
-                   </p>
-               )
-            }
-
-
+                </tbody>
+            </table>
         </>
     );
 }

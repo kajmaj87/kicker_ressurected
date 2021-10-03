@@ -19,17 +19,34 @@ const Result = (props) => {
         const closeModal = () => setOpen(false);
 
         useEffect(() => {
-            const userList = [];
+            //const resultList = [];
             const matchlist = [];
 
-            FirestoreService.getRankingList(location.state.param)
-                .then((querySnapshot) => {
-                    querySnapshot.forEach((doc) => {
-                        userList.push(doc.data().name);
-                    });
-                    setResultList(userList);
-                });
-
+            // FirestoreService.getRankingList(location.state.param)
+            //     .then((querySnapshot) => {
+            //         querySnapshot.forEach((doc) => {
+            //             userList.push(doc.data().name);
+            //         });
+            //         setResultList(userList);
+            //     });
+            let resultList = [
+                {
+                    "rankMMR": 0.25,
+                    "name": "BSZ",
+                    "rank": 1
+                },
+                {
+                    "rankMMR": 0.23,
+                    "name": "PKU",
+                    "rank": 2
+                },
+                {
+                    "rankMMR": 0.20,
+                    "name": "PLA",
+                    "rank": 3
+                }
+            ];
+            setResultList(resultList);
             FirestoreService.getMatchList(location.state.param)
                 .then((querySnapshot) => {
                     querySnapshot.forEach((doc) => {
@@ -55,6 +72,18 @@ const Result = (props) => {
         })
     }
 
+    const renderRankingTableData = () => {
+        return resultList.map((result, index) => {
+            return (
+                <tr key={index}>
+                    <td>{result.rank}</td>
+                    <td>{result.name}</td>
+                    <td>{result.rankMMR}</td>
+                </tr>
+            )
+        })
+    }
+
         return (
             <>
                 <h1>Result Page {location.state.param}</h1>
@@ -62,22 +91,27 @@ const Result = (props) => {
 
                 <Tabs>
                     <TabList>
-                        <Tab>Players</Tab>
-                        <Tab>History</Tab>
+                        <Tab>Ranking List</Tab>
+                        <Tab>Match History </Tab>
                         <Tab>New Game Result</Tab>
                     </TabList>
                     <TabPanel>
-                        <h2>Player list</h2>
-                        {<ul>
-                            {
-                                resultList.map(result =>
-                                    <div>{result}</div>
-                                )
-                            }
-                        </ul>}
+                        <h2>Ranking</h2>
+
+                        <p>games played: {matchtList.length} </p>
+                        <button type="button" class="btn btn-primary" onClick={() => history.goBack()}>Go Back</button>
+                        <table class="center" id='students'>
+                            <tbody>
+                                <th>Position </th>
+                                <th>Player </th>
+                                <th>MMR </th>
+                                {renderRankingTableData()}
+                            </tbody>
+                        </table>
                     </TabPanel>
                     <TabPanel>
                         <h2>Matches table</h2>
+                        <button type="button" class="btn btn-primary" onClick={() => history.goBack()}>Go Back</button>
                         <table class="center" id='students'>
                             <tbody>
                                 <th>Date </th>
@@ -93,7 +127,7 @@ const Result = (props) => {
                     </TabPanel>
                 </Tabs>
 
-                <button type="button" class="btn btn-primary" onClick={() => history.goBack()}>Go Back</button>
+
             </>
         );
     }
