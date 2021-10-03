@@ -87,7 +87,6 @@ class Creategroup extends  PureComponent {
     }
 
     render() {
-        const { history } = this.props;
         return (
             <div className="App">
                                 <h1>Create Group</h1>
