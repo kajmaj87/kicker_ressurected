@@ -12,7 +12,7 @@ exports.handler = async function (event, context) {
     matches.data.forEach(match => ranks = processMatch(match))
     return {
         statusCode: 200,
-        body: JSON.stringify({ result: formatRank(ranks) })
+        body: JSON.stringify({ result: formatRank(ranks).sort((a,b) => b.rank - a.rank) })
     };
 }
 
