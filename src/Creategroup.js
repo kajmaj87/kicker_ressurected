@@ -39,7 +39,7 @@ class Creategroup extends  PureComponent {
                     FirestoreService.createGroup(this.state.value, this.state.pass).then(callback => {
                         this.setState({value: ''});
                         this.setState({pass: ''});
-                    }).then(a => toast("Changes saved", {
+                    }).then(a => toast("⚽ Changes saved", {
                         position: "top-right",
                         autoClose: 5000,
                         hideProgressBar: false,
@@ -49,7 +49,7 @@ class Creategroup extends  PureComponent {
                         progress: undefined,
                     }));
                 } else {
-                    toast("Group already exists", {
+                    toast("⚽ Group already exists", {
                         position: "top-right",
                         autoClose: 5000,
                         hideProgressBar: false,
@@ -62,7 +62,7 @@ class Creategroup extends  PureComponent {
             });
         }else {
             toast.configure();
-            toast("Add name", {
+            toast("⚽ Add name", {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,

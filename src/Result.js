@@ -6,6 +6,8 @@ import 'react-tabs/style/react-tabs.css';
 import 'reactjs-popup/dist/index.css';
 import * as FirestoreService from './services/firestore';
 import NewResult from './NewResult';
+import axios from 'axios';
+const { URL } = process.env
 
 
 const Result = (props) => {
@@ -15,41 +17,14 @@ const Result = (props) => {
         const [matchtList, setMatchList] = useState([]);
 
         useEffect(() => {
-            //const resultList = [];
             const matchlist = [];
-
-            // FirestoreService.getRankingList(location.state.param)
-            //     .then((querySnapshot) => {
-            //         querySnapshot.forEach((doc) => {
-            //             userList.push(doc.data().name);
-            //         });
-            //         setResultList(userList);
-            //     });
-            let resultList = [
-                {
-                    "rankMMR": 0.25,
-                    "name": "BSZ",
-                    "rank": 1
-                },
-                {
-                    "rankMMR": 0.23,
-                    "name": "PKU",
-                    "rank": 2
-                },
-                {
-                    "rankMMR": 0.20,
-                    "name": "PLA",
-                    "rank": 3
-                }
-            ];
-            setResultList(resultList);
+            readKickerRanking();
             FirestoreService.getMatchList(location.state.param)
                 .then((querySnapshot) => {
                     querySnapshot.forEach((doc) => {
                         matchlist.push(doc.data());
                     });
                     matchlist.sort((a, b) => (new Date(a.data * 1000).getTime() - new Date(b.data * 1000).getTime()))
-                    //matchlist.sort(function(a,b){return a.getTime() - b.getTime()});
                     setMatchList(matchlist.reverse());
                 });
         }, []);
@@ -68,13 +43,21 @@ const Result = (props) => {
         })
     }
 
+    const readKickerRanking = async function () {
+        const query = location.state.param ? `?group=${location.state.param}` : '',
+            url = `${window.location.origin}/api/ranking${query}`,
+            matches = await axios.get(url);
+        setResultList(matches.data);
+    }
+
     const renderRankingTableData = () => {
         return resultList.map((result, index) => {
             return (
                 <tr key={index}>
                     <td>{result.rank}</td>
-                    <td>{result.name}</td>
-                    <td>{result.rankMMR}</td>
+                    <td>{result.user}</td>
+                    <td>{result.mu}</td>
+                    <td>{result.sigma}</td>
                 </tr>
             )
         })
@@ -93,14 +76,14 @@ const Result = (props) => {
                     </TabList>
                     <TabPanel>
                         <h2>Ranking</h2>
-
                         <p>games played: {matchtList.length} </p>
                         <button type="button" class="btn btn-primary" onClick={() => history.goBack()}>Go Back</button>
                         <table class="center" id='students'>
                             <tbody>
-                                <th>Position </th>
+                                <th>Rank</th>
                                 <th>Player </th>
-                                <th>MMR </th>
+                                <th>mu</th>
+                                <th>Sigma</th>
                                 {renderRankingTableData()}
                             </tbody>
                         </table>
@@ -122,8 +105,6 @@ const Result = (props) => {
                         <NewResult group={location.state.param}/>
                     </TabPanel>
                 </Tabs>
-
-
             </>
         );
     }

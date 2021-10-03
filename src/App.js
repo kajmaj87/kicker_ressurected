@@ -14,16 +14,12 @@ function App() {
           <Route path="/" exact>
             <Home />
           </Route>
-
           <Route path="/newGroup"  exact>
             <Creategroup />
           </Route>
-
           <Route path="/*"  exact>
             <Result />
           </Route>
-
-
         </Switch>
       </Router>
     </div>

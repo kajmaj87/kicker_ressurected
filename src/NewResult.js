@@ -1,7 +1,7 @@
 import 'react-tabs/style/react-tabs.css';
 import 'reactjs-popup/dist/index.css';
 import * as FirestoreService from './services/firestore';
-import {PureComponent} from 'react';
+import React, {PureComponent} from 'react';
 import {withRouter} from 'react-router-dom';
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -24,7 +24,7 @@ class NewResult extends PureComponent {
             valid: false,
             matchList: [],
             validLoss: false,
-            validWin: true
+            validWin: false,
         };
         this.setMatchList();
         this.handleWinnersChange = this.handleWinnersChange.bind(this);
@@ -40,12 +40,12 @@ class NewResult extends PureComponent {
     }
 
     handleWinnersChange(event) {
-        this.loadMatchList(event.target.value);
+        this.loadMatchList(event.target.value, 'validWin');
         this.setState({winners: event.target.value});
     }
 
     handleLosersChange(event) {
-        this.loadMatchList(event.target.value);
+        this.loadMatchList(event.target.value, 'validLoss');
         this.setState({losers: event.target.value});
     }
 
@@ -74,7 +74,7 @@ class NewResult extends PureComponent {
                             this.setState({valid: true});
                         } else {
                             toast.configure();
-                            toast("Wrong password", {
+                            toast("⚽ Wrong password", {
                                 position: "top-right",
                                 autoClose: 5000,
                                 hideProgressBar: false,
@@ -86,10 +86,9 @@ class NewResult extends PureComponent {
                         }
                     });
                     if (this.state.valid && this.state.losers && this.state.winners) {
-                        this.loadMatchList();
                         FirestoreService.addMatch(this.state.losers, this.state.winners, this.props.group).then(a => {
                             toast.configure();
-                            toast("Changes saved", {
+                            toast("⚽ Changes saved", {
                                 position: "top-right",
                                 autoClose: 5000,
                                 hideProgressBar: false,
@@ -103,7 +102,7 @@ class NewResult extends PureComponent {
                 });
         } else {
             toast.configure();
-            toast("Add all mandatory fields ", {
+            toast("⚽ Add all mandatory fields ", {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -125,7 +124,7 @@ class NewResult extends PureComponent {
         });
     }
 
-    loadMatchList(playerTab) {
+    loadMatchList(playerTab, stateParam) {
         let players = [];
         let matchList = this.state.matchList;
         matchList.forEach(match => {
@@ -133,10 +132,15 @@ class NewResult extends PureComponent {
             match.winners.forEach(a => players.push(a));
         })
         let uniquePlayers = [...new Set(players)];
-        //  console.log(uniquePlayers)
         playerTab = playerTab.split(',');
-        let win = playerTab.every(elem => uniquePlayers.includes(elem));
-        console.log(win);
+        let valid = playerTab.every(elem => uniquePlayers.includes(elem));
+        if(stateParam === 'validLoss') {
+            this.setState({validLoss : valid})
+        }
+        else {
+            this.setState({validWin : valid})
+        }
+
     }
 
     getGroupUsers = () => {
@@ -155,7 +159,7 @@ class NewResult extends PureComponent {
     render() {
         return (
             <div>
-                <h2>Add New result</h2>
+                <h2>Add New Result</h2>
                 <button type="button" class="btn btn-primary" onClick={this.revertTeams}>
                     Swap team
                 </button>
@@ -168,14 +172,14 @@ class NewResult extends PureComponent {
 
 
                     </label>
-                  //  <i class="material-icons">rule</i>
+                   <i class="material-icons">{this.state.validWin ? 'done' :  'info'}</i>
                     <br/>
                     <label>
                         Losers:
                         <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" value={this.state.losers}
                                onChange={this.handleLosersChange}/>
                     </label>
-                  //  <i class="material-icons">{this.state.validLoss} ? 'done' :  'rule'</i>
+                   <i class="material-icons">{this.state.validLoss ? 'done' :  'info'}</i>
                     <br/>
                     <label>
                         Password:
@@ -185,6 +189,11 @@ class NewResult extends PureComponent {
                     <br/>
                     <br/>
                     <input type="submit" class="btn btn-success" value="Submit"/>
+                    <br/>
+                    <br/>
+                    <button type="button" class="btn btn-primary" onClick={this.redirectToHome}>
+                        Go to home
+                    </button>
                 </form>
                 <br/>
             </div>
