@@ -26,7 +26,7 @@ class NewResult extends PureComponent {
             valid: false,
             matchList: [],
             validLoss: false,
-            validWin: false
+            validWin: true
         };
         this.setMatchList();
         this.handleWinnersChange = this.handleWinnersChange.bind(this);
@@ -168,13 +168,17 @@ class NewResult extends PureComponent {
                         Winners:
                         <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" value={this.state.winners}
                                onChange={this.handleWinnersChange}/>
+
+
                     </label>
+                    <i class="material-icons">rule</i>
                     <br/>
                     <label>
                         Losers:
                         <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" value={this.state.losers}
                                onChange={this.handleLosersChange}/>
                     </label>
+                    <i class="material-icons">{this.state.validLoss} ? 'done' :  'rule'</i>
                     <br/>
                     <label>
                         Password:
