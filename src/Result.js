@@ -5,31 +5,22 @@ import React from 'react';
 import 'react-tabs/style/react-tabs.css';
 import 'reactjs-popup/dist/index.css';
 import * as FirestoreService from './services/firestore';
+import NewResult from './NewResult';
 
 
 const Result = (props) => {
-    const myRef1= React.createRef();
-    const myRef2= React.createRef();
+        const myRef1 = React.createRef();
+        const myRef2 = React.createRef();
         const history = useHistory();
         const location = useLocation();
         const [resultList, setResultList] = useState([]);
-        const [groupList, setGroupList] = useState([]);
-        const [group1users, setGroup1Users] = useState([]);
-        const [group2users, setGroup2Users] = useState([]);
         const [matchtList, setMatchList] = useState([]);
         const [open, setOpen] = useState(false);
         const closeModal = () => setOpen(false);
 
         useEffect(() => {
-            const groupList = [];
             const userList = [];
             const matchlist = [];
-            FirestoreService.getGroupList().then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    groupList.push(doc.data().name);
-                });
-                setGroupList(groupList);
-            });
 
             FirestoreService.getRankingList(location.state.param)
                 .then((querySnapshot) => {
@@ -44,38 +35,25 @@ const Result = (props) => {
                     querySnapshot.forEach((doc) => {
                         matchlist.push(doc.data());
                     });
-                    setMatchList(matchlist);
+                    matchlist.sort((a, b) => (new Date(a.data * 1000).getTime() - new Date(b.data * 1000).getTime()))
+                    //matchlist.sort(function(a,b){return a.getTime() - b.getTime()});
+                    setMatchList(matchlist.reverse());
                 });
         }, []);
 
-        // getUsers(() => {
-        //
-        // });
-
-        const getGroup1Users = () => {
-            const userList = [];
-            const group = myRef1.current.options[myRef1.current.selectedIndex].value;
-            FirestoreService.getRankingList(group)
-                .then((querySnapshot) => {
-                    querySnapshot.forEach((doc) => {
-                        userList.push(doc.data().name);
-                    });
-                    setGroup1Users(userList);
-                });
-        };
-
-        const getGroup2Users = () => {
-            const userList = [];
-            const group = myRef2.current.options[myRef2.current.selectedIndex].value;
-            FirestoreService.getRankingList(group)
-                .then((querySnapshot) => {
-                    querySnapshot.forEach((doc) => {
-                        userList.push(doc.data().name);
-                    });
-                    setGroup2Users(userList);
-                });
-        };
-
+    const renderTableData = () => {
+        return matchtList.map((match, index) => {
+            let date = new Date(match.data.seconds * 1000);
+            let createDate = date.getFullYear() + '-' + date.getMonth() + '-'+ date.getDate()
+            return (
+                <tr key={index}>
+                    <td>{createDate}</td>
+                    <td>{match.winners.join(',')}</td>
+                    <td>{match.losers.join(',')}</td>
+                </tr>
+            )
+        })
+    }
 
         return (
             <>
@@ -84,106 +62,40 @@ const Result = (props) => {
 
                 <Tabs>
                     <TabList>
-                        <Tab>ranking</Tab>
-                        <Tab>history</Tab>
-                        <Tab>new game result</Tab>
+                        <Tab>Players</Tab>
+                        <Tab>History</Tab>
+                        <Tab>New Game Result</Tab>
                     </TabList>
-
                     <TabPanel>
-                        <h2>TABELA Z RANKINGIEM</h2>
+                        <h2>Player list</h2>
                         {<ul>
                             {
                                 resultList.map(result =>
-                                    <li>{result}</li>
+                                    <div>{result}</div>
                                 )
                             }
-
                         </ul>}
                     </TabPanel>
                     <TabPanel>
-                        <h2>TABELA Z WYNIKAMI</h2>
+                        <h2>Matches table</h2>
+                        <table class="center" id='students'>
+                            <tbody>
+                                <th>Date </th>
+                                <th>Winners </th>
+                                <th>Losers </th>
+                                {renderTableData()}
+                            </tbody>
+                        </table>
+
                     </TabPanel>
                     <TabPanel>
-                        <h2>DODAJTA KTO WYGRAJTA</h2>
-                        <div className="header">Add new result</div>
-                        <div className="content">
-                            <label>
-                                Date:
-                            </label>
-                            <input type="text" date="date"/>
-
-                            <br/>
-                            <label>Winners: </label>
-                            <select ref={myRef1} onChange={() => getGroup1Users(this)}>
-                                {
-                                    groupList.map(value=>
-                                    <option key={value} value={value}>{value}</option>)
-                                }
-                            </select>
-
-                            <br/>
-                            <label>Winner 1: </label>
-                            <select>
-                                {
-                                    group1users.map(value=>
-                                        <option key={value} value={value}>{value}</option>)
-                                }
-                            </select>
-
-                            <br/>
-                            <label>Winner 2: </label>
-                            <select>
-                                {
-                                    group1users.map(value=>
-                                        <option key={value} value={value}>{value}</option>)
-                                }
-                            </select>
-
-                            <br/>
-                            <br/>
-                            <br/>
-                            <label>Losers: </label>
-                            <select ref={myRef2} onChange={() => getGroup2Users()}>
-                                {
-                                    groupList.map(value=>
-                                        <option key={value} value={value}>{value}</option>)
-                                }
-                            </select>
-
-                            <br/>
-                            <label>Loser 1: </label>
-                            <select>
-                                {
-                                    group2users.map(value=>
-                                        <option key={value} value={value}>{value}</option>)
-                                }
-                            </select>
-
-                            <br/>
-                            <label>Loser 2: </label>
-                            <select>
-                                {
-                                    group2users.map(value=>
-                                        <option key={value} value={value}>{value}</option>)
-                                }
-                            </select>
-
-                            <br/>
-                            <button
-                                className="button"
-                                //onClick={FirestoreService.addMatch(["PKU", "BSZ"], ["AKO", "PLA"], "ASPEP")}
-                            >
-                                Submit
-                            </button>
-
-                        </div>
+                        <NewResult group={location.state.param}/>
                     </TabPanel>
                 </Tabs>
 
-                <button onClick={() => history.goBack()}>Go Back</button>
+                <button type="button" class="btn btn-primary" onClick={() => history.goBack()}>Go Back</button>
             </>
-        )
-            ;
+        );
     }
 ;
 

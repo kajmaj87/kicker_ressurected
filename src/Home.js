@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {useHistory} from 'react-router-dom';
 import * as FirestoreService from "./services/firestore";
+import {toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const Home = (props) => {
@@ -20,16 +22,14 @@ const Home = (props) => {
         return (
         <>
             <h1>Kicker</h1>
-              <button onClick={() => history.push('/newGroup', {param: "newGroup"})}> Create New Group</button>
+              <button type="button" class="btn btn-primary" onClick={() => history.push('/newGroup', {param: "newGroup"})}> Create New Group</button>
             <hr/>
-
-            {/* Button */}
 
 
             {
                groupList.map(result =>
                    <p>
-                        <button onClick={() => history.push('/'+result, {param: result})}>{result}</button>
+                        <button type="button" class="btn btn-primary" onClick={() => history.push('/'+result, {param: result})}>{result}</button>
                    </p>
                )
             }
