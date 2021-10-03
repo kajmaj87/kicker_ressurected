@@ -5,7 +5,10 @@ const { URL } = process.env
 let ranks = {};
 
 exports.handler = async function (event, context) {
-    const matches = await axios.get(`${URL}/matches`);
+    const query = event.queryStringParameters.group ? `?group=${event.queryStringParameters.group}` : '',
+          url = `${URL}/matches${query}`,
+          matches = await axios.get(url);
+    console.log("Queried for ", url)
     matches.data.forEach(match => ranks = processMatch(match))
     return {
         statusCode: 200,
