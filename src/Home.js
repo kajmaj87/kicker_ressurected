@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useHistory} from 'react-router-dom';
 import * as FirestoreService from "./services/firestore";
-import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {TabPanel} from "react-tabs";
 
