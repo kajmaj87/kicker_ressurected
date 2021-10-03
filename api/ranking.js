@@ -1,11 +1,12 @@
 const skill = require('ts-trueskill');
+const axios = require('axios');
+const { URL } = process.env
+
 let ranks = {};
-const matches = [{ winners: ["BSZ", "KMA"], losers: ["PKU", "PLA"], date: 1 },
-{ winners: ["BSZ", "KMA"], losers: ["ABC", "PLA"], date: 2 },
-{ winners: ["BSZ", "XYZ"], losers: ["PKU", "PLA"], date: 3 }]
 
 exports.handler = async function (event, context) {
-    matches.forEach(match => ranks = processMatch(match))
+    const matches = await axios.get(`${URL}/matches`);
+    matches.data.forEach(match => ranks = processMatch(match))
     return {
         statusCode: 200,
         body: JSON.stringify({ result: formatRank(ranks) })
@@ -22,7 +23,6 @@ function processMatch(match) {
     ranks = updateRanks(updated_winning_team_ratings, match.winners, ranks);
     ranks = updateRanks(updated_losing_team_ratings, match.losers, ranks);
 
-    console.log("Ranks after match: ",ranks)
     return ranks;
 }
 
