@@ -51,13 +51,9 @@ const Result = (props) => {
             matches = await axios.get(matches_url);
             
         ranking.map(r => {
-          r.wins = maches.reduce((acc, match) => {
-            (match.winners.indexOf(r.user) >= 0 ? 1 : 0) + acc
-          };
-          r.loses = maches.reduce((acc, match) => {
-            (match.losers.indexOf(r.user) >= 0 ? 1 : 0) + acc
-          };
-        }
+          r.wins = maches.reduce((acc, match) => (match.winners.indexOf(r.user) >= 0 ? 1 : 0) + acc);
+          r.loses = maches.reduce((acc, match) => (match.losers.indexOf(r.user) >= 0 ? 1 : 0) + acc);
+        };
         
         setResultList(ranking.data);
     }
