@@ -54,7 +54,7 @@ const Result = (props) => {
         return resultList.map((result, index) => {
             return (
                 <tr key={index}>
-                    <td>{result.rank}</td>
+                    <td>{result.rank.toFixed(1)}</td>
                     <td>{result.user}</td>
                     <td>{result.mu}</td>
                     <td>{result.sigma}</td>
