@@ -8,7 +8,6 @@ import Result from './Result';
 
 function App() {
   return (
-    <base href=""/>
     <div className="App">
     <Router>
         <Switch>
