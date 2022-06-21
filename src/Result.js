@@ -90,8 +90,8 @@ const Result = (props) => {
                             <tbody>
                                 <th>Rank</th>
                                 <th>Player </th>
-                                <th>mu</th>
-                                <th>Sigma</th>
+                                <th>Wins</th>
+                                <th>Loses</th>
                                 {renderRankingTableData()}
                             </tbody>
                         </table>
