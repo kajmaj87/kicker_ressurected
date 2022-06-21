@@ -45,9 +45,21 @@ const Result = (props) => {
 
     const readKickerRanking = async function () {
         const query = location.state.param ? `?group=${location.state.param}` : '',
-            url = `${window.location.origin}/api/ranking${query}`,
-            matches = await axios.get(url);
-        setResultList(matches.data);
+            ranking_url = `${window.location.origin}/api/ranking${query}`,
+            matches_url = `${window.location.origin}/api/matches${query}`,
+            ranking = await axios.get(ranking_url),
+            matches = await axios.get(matches_url);
+            
+        ranking.map(r => {
+          r.wins = maches.reduce((acc, match) => {
+            (match.winners.indexOf(r.user) >= 0 ? 1 : 0) + acc
+          };
+          r.loses = maches.reduce((acc, match) => {
+            (match.losers.indexOf(r.user) >= 0 ? 1 : 0) + acc
+          };
+        }
+        
+        setResultList(ranking.data);
     }
 
     const renderRankingTableData = () => {
@@ -56,8 +68,8 @@ const Result = (props) => {
                 <tr key={index}>
                     <td>{result.rank}</td>
                     <td>{result.user}</td>
-                    <td>{result.mu}</td>
-                    <td>{result.sigma}</td>
+                    <td>{result.wins}</td>
+                    <td>{result.loses}</td>
                 </tr>
             )
         })
