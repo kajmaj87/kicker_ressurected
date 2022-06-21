@@ -128,8 +128,8 @@ class NewResult extends PureComponent {
         let players = [];
         let matchList = this.state.matchList;
         matchList.forEach(match => {
-            match.losers.forEach(a => players.push(a));
-            match.winners.forEach(a => players.push(a));
+            match.losers.forEach(a => players.push(a.trim()));
+            match.winners.forEach(a => players.push(a.trim()));
         })
         let uniquePlayers = [...new Set(players)];
         playerTab = playerTab.split(',');
