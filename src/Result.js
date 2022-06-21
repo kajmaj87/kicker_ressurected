@@ -32,7 +32,7 @@ const Result = (props) => {
     const renderTableData = () => {
         return matchtList.map((match, index) => {
             let date = new Date(match.data.seconds * 1000);
-            let createDate = date.getFullYear() + '-' + date.getMonth() + '-'+ date.getDate()
+            let createDate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-'+ date.getDate()
             return (
                 <tr key={index}>
                     <td>{createDate}</td>
@@ -45,9 +45,17 @@ const Result = (props) => {
 
     const readKickerRanking = async function () {
         const query = location.state.param ? `?group=${location.state.param}` : '',
-            url = `${window.location.origin}/api/ranking${query}`,
-            matches = await axios.get(url);
-        setResultList(matches.data);
+            ranking_url = `${window.location.origin}/api/ranking${query}`,
+            matches_url = `${window.location.origin}/api/matches${query}`,
+            ranking = await axios.get(ranking_url),
+            matches = await axios.get(matches_url);
+            
+        ranking.data.map(r => {
+          r.wins = matches.data.reduce((acc, match) => (match.winners.indexOf(r.user) >= 0 ? 1 : 0) + acc, 0);
+          r.loses = matches.data.reduce((acc, match) => (match.losers.indexOf(r.user) >= 0 ? 1 : 0) + acc, 0);
+        });
+        
+        setResultList(ranking.data);
     }
 
     const renderRankingTableData = () => {
@@ -56,8 +64,8 @@ const Result = (props) => {
                 <tr key={index}>
                     <td>{result.rank.toFixed(1)}</td>
                     <td>{result.user}</td>
-                    <td>{result.mu}</td>
-                    <td>{result.sigma}</td>
+                    <td>{result.wins}</td>
+                    <td>{result.loses}</td>
                 </tr>
             )
         })
@@ -81,9 +89,9 @@ const Result = (props) => {
                         <table class="center" id='students'>
                             <tbody>
                                 <th>Rank</th>
-                                <th>Player </th>
-                                <th>mu</th>
-                                <th>Sigma</th>
+                                <th>Player</th>
+                                <th>Wins</th>
+                                <th>Loses</th>
                                 {renderRankingTableData()}
                             </tbody>
                         </table>
