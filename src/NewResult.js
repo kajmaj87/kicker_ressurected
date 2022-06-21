@@ -40,13 +40,13 @@ class NewResult extends PureComponent {
     }
 
     handleWinnersChange(event) {
-        this.loadMatchList(event.target.value.replaceAll(" ",""), 'validWin');
-        this.setState({winners: event.target.value.replaceAll(" ","")});
+        this.loadMatchList(event.target.value.replaceAll(" ","").toLocaleLowerCase(), 'validWin');
+        this.setState({winners: event.target.value.replaceAll(" ","").toLocaleLowerCase()});
     }
 
     handleLosersChange(event) {
-        this.loadMatchList(event.target.value.replaceAll(" ",""), 'validLoss');
-        this.setState({losers: event.target.value.replaceAll(" ","")});
+        this.loadMatchList(event.target.value.replaceAll(" ","").toLocaleLowerCase(), 'validLoss');
+        this.setState({losers: event.target.value.replaceAll(" ","").toLocaleLowerCase()});
     }
 
     checkPass(event) {
