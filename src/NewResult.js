@@ -160,6 +160,7 @@ class NewResult extends PureComponent {
         return (
             <div>
                 <h2>✏️Add New Result</h2>
+                <p>Multiple players in team should be separated by comma</p>
                 <button type="button" class="btn btn-primary" onClick={this.revertTeams}>
                     Swap team
                 </button>
