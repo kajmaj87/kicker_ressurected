@@ -53,7 +53,7 @@ const Result = (props) => {
         ranking.map(r => {
           r.wins = maches.reduce((acc, match) => (match.winners.indexOf(r.user) >= 0 ? 1 : 0) + acc);
           r.loses = maches.reduce((acc, match) => (match.losers.indexOf(r.user) >= 0 ? 1 : 0) + acc);
-        };
+        });
         
         setResultList(ranking.data);
     }
