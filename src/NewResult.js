@@ -40,13 +40,13 @@ class NewResult extends PureComponent {
     }
 
     handleWinnersChange(event) {
-        this.loadMatchList(event.target.value, 'validWin');
-        this.setState({winners: event.target.value});
+        this.loadMatchList(event.target.value.replaceAll(" ",""), 'validWin');
+        this.setState({winners: event.target.value.replaceAll(" ","")});
     }
 
     handleLosersChange(event) {
-        this.loadMatchList(event.target.value, 'validLoss');
-        this.setState({losers: event.target.value});
+        this.loadMatchList(event.target.value.replaceAll(" ",""), 'validLoss');
+        this.setState({losers: event.target.value.replaceAll(" ","")});
     }
 
     checkPass(event) {
@@ -128,8 +128,8 @@ class NewResult extends PureComponent {
         let players = [];
         let matchList = this.state.matchList;
         matchList.forEach(match => {
-            match.losers.forEach(a => players.push(a.trim()));
-            match.winners.forEach(a => players.push(a.trim()));
+            match.losers.forEach(a => players.push(a));
+            match.winners.forEach(a => players.push(a));
         })
         let uniquePlayers = [...new Set(players)];
         playerTab = playerTab.split(',');
