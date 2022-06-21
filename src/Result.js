@@ -50,9 +50,9 @@ const Result = (props) => {
             ranking = await axios.get(ranking_url),
             matches = await axios.get(matches_url);
             
-        ranking.map(r => {
-          r.data.wins = matches.reduce((acc, match) => (match.winners.indexOf(r.data.user) >= 0 ? 1 : 0) + acc);
-          r.data.loses = matches.reduce((acc, match) => (match.losers.indexOf(r.data.user) >= 0 ? 1 : 0) + acc);
+        ranking.data.map(r => {
+          r.wins = matches.reduce((acc, match) => (match.winners.indexOf(r.user) >= 0 ? 1 : 0) + acc);
+          r.loses = matches.reduce((acc, match) => (match.losers.indexOf(r.user) >= 0 ? 1 : 0) + acc);
         });
         
         setResultList(ranking.data);
