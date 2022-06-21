@@ -89,7 +89,7 @@ const Result = (props) => {
                         <table class="center" id='students'>
                             <tbody>
                                 <th>Rank</th>
-                                <th>Player </th>
+                                <th>Player</th>
                                 <th>Wins</th>
                                 <th>Loses</th>
                                 {renderRankingTableData()}
