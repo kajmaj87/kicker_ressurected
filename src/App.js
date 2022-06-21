@@ -9,6 +9,7 @@ import Result from './Result';
 function App() {
   return (
     <div className="App">
+    <base href="">
     <Router>
         <Switch>
           <Route path="/" exact>
