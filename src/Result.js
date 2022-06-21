@@ -32,7 +32,7 @@ const Result = (props) => {
     const renderTableData = () => {
         return matchtList.map((match, index) => {
             let date = new Date(match.data.seconds * 1000);
-            let createDate = date.getFullYear() + '-' + date.getMonth() + '-'+ date.getDate()
+            let createDate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-'+ date.getDate()
             return (
                 <tr key={index}>
                     <td>{createDate}</td>
